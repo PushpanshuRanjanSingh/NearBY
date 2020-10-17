@@ -49,3 +49,4 @@ app.*.map.json
 
 # I want to ignore this files
 AuthKeys.txt
+.vscode
