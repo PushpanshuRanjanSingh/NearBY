@@ -14,6 +14,10 @@ SnapShots
 
 <img src="https://i.loli.net/2020/10/17/X3tw14xJqoEzVym.png" alt="Splash" width="30%"  />
 
+
+
+<img src="https://i.loli.net/2020/10/20/dkhgnXtQsMAH2DR.png" alt="Splash" width="30%"  />
+
 </p>
 
 :warning: **If you are cloning this repository. Create your project and move these items to your project because many files are ignored so you will get errors.**
