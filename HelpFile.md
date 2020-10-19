@@ -460,6 +460,37 @@ class OTPBackground extends StatelessWidget {
 </table>
 
 
+## Map Data Fetching Function
 
+```dart
 
+  Future<Mapdata> futureMapData;
+  final apiurl =
+      'https://atlas.mapmyindia.com/api/places/nearby/json?keywords=coffee;beer&refLocation=25.765150,84.783840';
+
+  Future<Mapdata> _mapData() async {
+    final response = await http.get(
+      apiurl,
+      headers: {
+        HttpHeaders.authorizationHeader:
+            "Bearer a32eca00-44aa-4765-b9e9-02f8b6fa0b8b"
+      },
+    );
+    if (response.statusCode == 200) {
+      final responseData = Mapdata.fromJson(jsonDecode(response.body));
+      return responseData;
+    } else {
+      throw ('Failed to load Data');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    futureMapData = _mapData();
+  }
+
+```
+
+## Create Json Model Class with the help of [Quicktype](https://app.quicktype.io/)
 

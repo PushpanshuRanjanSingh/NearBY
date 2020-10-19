@@ -1,11 +1,11 @@
-import 'dart:convert';
 import 'dart:io';
-
+import 'dart:convert';
 import 'package:NearBY/Screens/AuthScreen/authScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:NearBY/colors.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:geolocator/geolocator.dart';
+import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -13,33 +13,47 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  Future<Mapdata> futureMapData;
-  final apiurl =
-      'https://atlas.mapmyindia.com/api/places/nearby/json?keywords=coffee;beer&refLocation=25.765150,84.783840';
+  List data;
+  SharedPreferences sharedPreferences;
 
-  Future<Mapdata> _mapData() async {
-    final response = await http.get(
-      apiurl,
-      headers: {
-        HttpHeaders.authorizationHeader:
-            "Bearer a32eca00-44aa-4765-b9e9-02f8b6fa0b8b"
-      },
-    );
-    if (response.statusCode == 200) {
-      final responseData = Mapdata.fromJson(jsonDecode(response.body));
-      return responseData;
-    } else {
-      throw ('Failed to load Data');
-    }
-  }
+  double latitute;
+  double longitude;
+  String searchquery = "ornaments";
 
   @override
   void initState() {
     super.initState();
-    futureMapData = _mapData();
+    this._getCurrentLocation();
   }
 
-  SharedPreferences sharedPreferences;
+  Future<void> _getCurrentLocation() async {
+    final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.medium);
+    setState(() {
+      latitute = position.latitude;
+      longitude = position.longitude;
+    });
+  }
+
+  Future<String> getJsonData(
+      String searchquery, String latitute, String longitude) async {
+    var respone = await http.get(
+      Uri.encodeFull(
+          'https://atlas.mapmyindia.com/api/places/nearby/json?keywords=$searchquery&refLocation=$latitute,$longitude'),
+      headers: {
+        HttpHeaders.authorizationHeader:
+            "Bearer 80e248ff-bc3f-4089-81b1-c321ed991f6e",
+        "Accept": "application/json"
+      },
+    );
+    setState(() {
+      var convertToJsonData = json.decode(respone.body);
+      data = convertToJsonData['suggestedLocations'];
+    });
+
+    return "Success";
+  }
+
   logout() async {
     sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString("token");
@@ -60,111 +74,47 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "NearBY",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Charcoal),
-          textAlign: TextAlign.center,
-        ),
-        leading: IconButton(
-            icon: Icon(
-              Icons.exit_to_app,
-              color: Colors.red[50],
-            ),
-            onPressed: () {
-              logout();
-            }),
-      ),
-      body: Container(
-          alignment: Alignment.center,
-          height: size.height,
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(29),
-                child: FlatButton(
-                  child: Text("Load Data"),
-                  onPressed: _mapData,
-                  color: Colors.blue,
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
-                ),
+        appBar: AppBar(
+          title: Text("NearBY"),
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.search,
+                color: Colors.white,
               ),
-              SizedBox(height: 20),
-              SingleChildScrollView(
-                  child: FutureBuilder<Mapdata>(
-                future: futureMapData,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              snapshot.data.placeName.toString(),
-                              style: (TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold)),
-                            ),
-                            Text(
-                              snapshot.data.placeAddress.toString(),
-                              style: (TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w300)),
-                            ),
-                            Text(
-                              (snapshot.data.distance/1000).toString()+'m',
-                              style: (TextStyle(
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.w300)),
-                            )
-                          ],
+              onPressed: () {
+                setState(() {
+                  getJsonData(
+                      searchquery, latitute.toString(), longitude.toString());
+                });
+              },
+            ),
+          ],
+        ),
+        body: ListView.builder(
+            itemCount: data == null ? 0 : data.length,
+            itemBuilder: (BuildContext contex, int index) {
+              return new Container(
+                child: new Center(
+                  child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      new Card(
+                        child: new ListTile(
+                          title: Text(data[index]['placeName']),
+                          subtitle: Text(data[index]['placeAddress']),
+                          leading: Text((data[index]['distance'] / 1000)
+                                  .toStringAsFixed(1) +
+                              ' km'),
+                          trailing: Icon(Icons.arrow_forward),
                         ),
-                      ],
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
-                  }
-                  // By default, show a loading spinner.
-                  return CircularProgressIndicator();
-                },
-              ))
-            ],
-          )),
-    );
-  }
-}
-
-class Mapdata {
-  final int distance;
-  final String placeAddress;
-  final String placeName;
-
-  Mapdata({this.distance, this.placeAddress, this.placeName});
-
-  factory Mapdata.fromJson(Map<String, dynamic> json) {
-    // var jsondata;
-    // for (int i = 0; i < json['suggestedLocations'].length; i++) {
-    //   Map toMap() => {
-    //         "distance": json['suggestedLocations'][i]['distance'],
-    //         "placeAddress": json['suggestedLocations'][i]['placeAddress'],
-    //         "placeName": json['suggestedLocations'][i]['placeName']
-    //             .map((c) => c.toJson().toList())
-    //       };
-    //   jsondata = jsonEncode(toMap());
-    // }
-    print(json['suggestedLocations']);
-    
-    return Mapdata(
-      distance: json['suggestedLocations'][0]['distance'],
-      placeAddress: json['suggestedLocations'][0]['placeAddress'],
-      placeName: json['suggestedLocations'][0]['placeName'],
-    );
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }));
   }
 }
