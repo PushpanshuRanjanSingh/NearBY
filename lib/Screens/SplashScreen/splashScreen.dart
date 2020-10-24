@@ -18,19 +18,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
   checkLoginStatus() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getString("token") == null) {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => AuthScreen()),
-          (Route<dynamic> route) => false);
-    } else if (isLocationServiceEnabled == true) {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
-          (Route<dynamic> route) => false);
-    } else {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => AskLocation()),
-          (Route<dynamic> route) => false);
-    }
+    sharedPreferences.getString("token") == null
+        ? Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (BuildContext context) => AuthScreen()),
+            (Route<dynamic> route) => false)
+        : isLocationServiceEnabled
+            ? Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (BuildContext context) => MainScreen()),
+                (Route<dynamic> route) => false)
+            : Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (BuildContext context) => AskLocation()),
+                (Route<dynamic> route) => false);
   }
 
   locationstatus() async {

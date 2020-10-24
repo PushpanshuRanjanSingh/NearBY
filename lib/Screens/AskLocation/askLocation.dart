@@ -42,7 +42,7 @@ class _AskLocationState extends State<AskLocation> {
     print(token);
     if (token != null) {
       var response = await http.post(
-          "http://127.0.0.1:8000/logoutall/",
+          "http://ec2-15-206-117-147.ap-south-1.compute.amazonaws.com/logoutall/",
           headers: {"Authorization": "Token " + token});
       if (response.statusCode == 204) {
         sharedPreferences.clear();

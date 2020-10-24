@@ -84,7 +84,7 @@ class _RegisterBackgroundState extends State<RegisterBackground> {
             SizedBox(height: size.height * 0.03),
             _textfieldfail
                 ? Text(
-                    "any pattern is invalid",
+                    "any field is invalid",
                     style: TextStyle(color: Colors.red[300]),
                   )
                 : Text(''),
@@ -98,10 +98,11 @@ class _RegisterBackgroundState extends State<RegisterBackground> {
               controller: email,
             ),
             RoundedPasswordInput(
-              hint: "password >= 8 chars ",
+              hint: "password ",
               controller: password,
             ),
-            SizedBox(height: size.height * 0.03),
+            Container(child: Text("password contains 8 characters", textAlign: TextAlign.start, style: TextStyle(color: Colors.grey),)),
+            SizedBox(height: size.height * 0.02),
             RoundedButton(
                 btnColor: LightCoral,
                 text: "Register",

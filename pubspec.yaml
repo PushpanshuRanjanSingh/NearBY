@@ -16,8 +16,7 @@ dependencies:
   geolocator: ^6.1.0
   flutter_map: any
   flutter_session: ^0.1.1
-  splashscreen: any
-
+  maps_launcher: ^1.2.2+2
   
 dev_dependencies:
   flutter_test:

@@ -42,7 +42,7 @@ class _OTPBackgroundState extends State<OTPBackground> {
     };
     String body = json.encode(data);
     var response = await http.post(
-      'http://127.0.0.1:8000/register/',
+      'http://ec2-15-206-117-147.ap-south-1.compute.amazonaws.com/register/',
       body: body,
       headers: {"Content-Type": "application/json"},
     );

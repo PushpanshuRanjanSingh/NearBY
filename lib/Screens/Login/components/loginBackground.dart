@@ -24,6 +24,7 @@ class LoginBackground extends StatefulWidget {
 class _LoginBackgroundState extends State<LoginBackground> {
   bool _isLoading = false;
   bool _isnotvalid = false;
+  bool _connectivity = true;
   TextEditingController username;
   TextEditingController password;
   var token;
@@ -52,7 +53,7 @@ class _LoginBackgroundState extends State<LoginBackground> {
       // ignore: avoid_init_to_null
       var jsonResponse = null;
       var response =
-          await http.post("http://127.0.0.1:8000/login/", body: data);
+          await http.post("http://ec2-15-206-117-147.ap-south-1.compute.amazonaws.com/login/", body: data);
       if (response.statusCode == 200) {
         jsonResponse = json.decode(response.body);
         if (jsonResponse != null) {
@@ -70,6 +71,9 @@ class _LoginBackgroundState extends State<LoginBackground> {
         setState(() {
           _isLoading = false;
           _isnotvalid = true;
+          if (response.statusCode == null) {
+            _connectivity = false;
+          }
         });
         print(response.body);
       }
@@ -79,7 +83,7 @@ class _LoginBackgroundState extends State<LoginBackground> {
       child: SingleChildScrollView(
         child: _isLoading
             ? Center(
-                child: CircularProgressIndicator(),
+                child: Container(height: 60, width: 60,padding: EdgeInsets.all(8),child: CircularProgressIndicator(),),
               )
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -100,6 +104,12 @@ class _LoginBackgroundState extends State<LoginBackground> {
                           style: TextStyle(color: Colors.red[300]),
                         )
                       : Text(''),
+                  _connectivity
+                      ? Text("")
+                      : Text(
+                          "Ouch! internet break-down",
+                          style: TextStyle(color: Colors.red[300]),
+                        ),
                   RoundedInputField(
                     hintText: "username",
                     controller: username,
@@ -133,9 +143,10 @@ class _LoginBackgroundState extends State<LoginBackground> {
                   AlreadyHaveAccountCheck(
                     press: () {
                       Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => RegisterPage()),
-                    (Route<dynamic> route) => false);
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  RegisterPage()),
+                          (Route<dynamic> route) => false);
                     },
                   ),
                 ],
