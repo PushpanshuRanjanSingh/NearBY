@@ -14,9 +14,10 @@ SnapShots
 
 <img src="https://i.loli.net/2020/10/17/X3tw14xJqoEzVym.png" alt="Splash" width="30%"  />
 
+<img src="https://i.loli.net/2020/10/27/EXBP2jYiryxCUkD.png" alt="Splash" width="30%"  />
 
+<img src="https://i.loli.net/2020/10/27/TE7lcZu3BvaVYC6.png" alt="Splash" width="30%"  />
 
-<img src="https://i.loli.net/2020/10/20/dkhgnXtQsMAH2DR.png" alt="Splash" width="30%"  />
 
 </p>
 
