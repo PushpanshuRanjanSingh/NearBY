@@ -2,9 +2,11 @@ import 'dart:async';
 import 'package:NearBY/Screens/AskLocation/askLocation.dart';
 import 'package:NearBY/Screens/AuthScreen/authScreen.dart';
 import 'package:NearBY/Screens/Mainscreen/mainScreen.dart';
+import 'package:geolocator/geolocator.dart';
+// import 'package:NearBY/Screens/Mainscreen/mainScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+// import 'package:geolocator/geolocator.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -22,7 +24,8 @@ class _SplashScreenState extends State<SplashScreen> {
         ? Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (BuildContext context) => AuthScreen()),
             (Route<dynamic> route) => false)
-        : isLocationServiceEnabled
+        : 
+        isLocationServiceEnabled
             ? Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                     builder: (BuildContext context) => MainScreen()),
@@ -33,24 +36,19 @@ class _SplashScreenState extends State<SplashScreen> {
                 (Route<dynamic> route) => false);
   }
 
-  locationstatus() async {
-    try {
-      position = await Geolocator.getCurrentPosition();
-    } catch (e) {
-      print(e);
-    }
-
+locationstatus() async {
+LocationPermission permission = await GeolocatorPlatform.instance.checkPermission();
     setState(() {
       try {
-        position.latitude != null
+        permission.index == 2
             ? isLocationServiceEnabled = true
             : isLocationServiceEnabled = false;
       } catch (err) {
         print(err);
       }
     });
-    print(isLocationServiceEnabled);
   }
+
 
   @override
   void initState() {

@@ -28,9 +28,11 @@ class _RegisterBackgroundState extends State<RegisterBackground> {
   TextEditingController username;
   TextEditingController password;
   TextEditingController email;
+  bool _secure;
 
   @override
   void initState() {
+    _secure = true;
     _textfieldfail = false;
     _textfieldcheck = false;
     username = new TextEditingController();
@@ -100,8 +102,21 @@ class _RegisterBackgroundState extends State<RegisterBackground> {
             RoundedPasswordInput(
               hint: "password ",
               controller: password,
+              icon:
+                  _secure ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+              secure: _secure ? true : false,
+              toggle: () {
+                setState(() {
+                  _secure = !_secure;
+                });
+              },
             ),
-            Container(child: Text("password contains 8 characters", textAlign: TextAlign.start, style: TextStyle(color: Colors.grey),)),
+            Container(
+                child: Text(
+              "password contains 8 characters",
+              textAlign: TextAlign.start,
+              style: TextStyle(color: Colors.grey),
+            )),
             SizedBox(height: size.height * 0.02),
             RoundedButton(
                 btnColor: LightCoral,

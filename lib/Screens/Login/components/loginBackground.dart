@@ -27,9 +27,12 @@ class _LoginBackgroundState extends State<LoginBackground> {
   bool _connectivity = true;
   TextEditingController username;
   TextEditingController password;
+  bool _secure;
   var token;
+
   @override
   void initState() {
+    _secure = true;
     username = new TextEditingController();
     password = new TextEditingController();
     super.initState();
@@ -52,8 +55,9 @@ class _LoginBackgroundState extends State<LoginBackground> {
       Map data = {'username': username, 'password': password};
       // ignore: avoid_init_to_null
       var jsonResponse = null;
-      var response =
-          await http.post("http://ec2-15-206-117-147.ap-south-1.compute.amazonaws.com/login/", body: data);
+      var response = await http.post(
+          "http://ec2-15-206-117-147.ap-south-1.compute.amazonaws.com/login/",
+          body: data);
       if (response.statusCode == 200) {
         jsonResponse = json.decode(response.body);
         if (jsonResponse != null) {
@@ -83,7 +87,12 @@ class _LoginBackgroundState extends State<LoginBackground> {
       child: SingleChildScrollView(
         child: _isLoading
             ? Center(
-                child: Container(height: 60, width: 60,padding: EdgeInsets.all(8),child: CircularProgressIndicator(),),
+                child: Container(
+                  height: 60,
+                  width: 60,
+                  padding: EdgeInsets.all(8),
+                  child: CircularProgressIndicator(),
+                ),
               )
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -117,6 +126,15 @@ class _LoginBackgroundState extends State<LoginBackground> {
                   RoundedPasswordInput(
                     hint: "password",
                     controller: password,
+                    icon: _secure
+                        ? Icon(Icons.visibility)
+                        : Icon(Icons.visibility_off),
+                    secure: _secure ? true : false,
+                    toggle: () {
+                      setState(() {
+                        _secure = !_secure;
+                      });
+                    },
                   ),
                   SizedBox(height: size.height * 0.03),
                   RoundedButton(

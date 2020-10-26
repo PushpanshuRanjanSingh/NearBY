@@ -57,8 +57,7 @@ class _AskLocationState extends State<AskLocation> {
 
   // return position of current location
   Future<void> _getCurrentLocation() async {
-    final position =
-        await Geolocator.getCurrentPosition();
+    final position = await Geolocator.getCurrentPosition();
 
     setState(() {
       latitute = position.latitude;
@@ -71,7 +70,8 @@ class _AskLocationState extends State<AskLocation> {
 
   // permission [1: deny, 0: yet now asked, 2: grant]
   Future<void> _isEnable() async {
-    LocationPermission permission = await GeolocatorPlatform.instance.checkPermission();
+    LocationPermission permission =
+        await GeolocatorPlatform.instance.checkPermission();
     if (permission.index == 1) {
       await GeolocatorPlatform.instance.openLocationSettings();
     } else {
