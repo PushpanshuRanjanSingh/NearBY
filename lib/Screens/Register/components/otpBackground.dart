@@ -2,6 +2,7 @@ import 'package:NearBY/Function/functions.dart';
 import 'package:NearBY/Screens/Login/components/Background.dart';
 import 'package:NearBY/Screens/Login/loginPage.dart';
 import 'package:NearBY/colors.dart';
+import 'package:NearBY/global.dart';
 import 'package:NearBY/widget/roundedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -42,7 +43,7 @@ class _OTPBackgroundState extends State<OTPBackground> {
     };
     String body = json.encode(data);
     var response = await http.post(
-      'http://ec2-15-206-117-147.ap-south-1.compute.amazonaws.com/register/',
+      '$url/register/',
       body: body,
       headers: {"Content-Type": "application/json"},
     );

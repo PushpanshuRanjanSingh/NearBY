@@ -3,6 +3,7 @@ import 'package:NearBY/Screens/AskLocation/askLocation.dart';
 import 'package:NearBY/Screens/Login/components/Background.dart';
 import 'package:NearBY/Screens/Register/registerPage.dart';
 import 'package:NearBY/colors.dart';
+import 'package:NearBY/global.dart';
 import 'package:NearBY/widget/AlreadyHaveAccountCheck.dart';
 import 'package:NearBY/widget/roundedButton.dart';
 import 'package:NearBY/widget/roundedInputField.dart';
@@ -56,7 +57,7 @@ class _LoginBackgroundState extends State<LoginBackground> {
       // ignore: avoid_init_to_null
       var jsonResponse = null;
       var response = await http.post(
-          "http://ec2-15-206-117-147.ap-south-1.compute.amazonaws.com/login/",
+          "$url/login/",
           body: data);
       if (response.statusCode == 200) {
         jsonResponse = json.decode(response.body);

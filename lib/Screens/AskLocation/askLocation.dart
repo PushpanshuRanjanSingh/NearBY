@@ -2,6 +2,7 @@ import 'package:NearBY/Screens/AuthScreen/authScreen.dart';
 import 'package:NearBY/Screens/Login/loginPage.dart';
 import 'package:NearBY/Screens/MainScreen/mainScreen.dart';
 import 'package:NearBY/colors.dart';
+import 'package:NearBY/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -42,7 +43,7 @@ class _AskLocationState extends State<AskLocation> {
     print(token);
     if (token != null) {
       var response = await http.post(
-          "http://ec2-15-206-117-147.ap-south-1.compute.amazonaws.com/logoutall/",
+          "$url/logoutall/",
           headers: {"Authorization": "Token " + token});
       if (response.statusCode == 204) {
         sharedPreferences.clear();

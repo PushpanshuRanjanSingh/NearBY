@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:NearBY/global.dart';
 
 String otpGenerate() {
   Random random = new Random();
@@ -16,7 +17,7 @@ Future<String> sendMail(String otp, String email) async {
   };
   String body = json.encode(data);
   http.Response response = await http.post(
-    'http://ec2-15-206-117-147.ap-south-1.compute.amazonaws.com/sendmail/',
+    '$url/sendmail/',
     body: body,
     headers: {"Content-Type": "application/json"},
   );
