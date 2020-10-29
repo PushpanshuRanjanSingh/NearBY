@@ -1,1 +1,0 @@
-String url = "ec2-65-0-143-246.ap-south-1.compute.amazonaws.com";

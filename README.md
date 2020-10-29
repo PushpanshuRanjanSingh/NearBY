@@ -18,7 +18,10 @@ SnapShots
 
 <img src="https://i.loli.net/2020/10/27/TE7lcZu3BvaVYC6.png" alt="Splash" width="30%"  />
 
-
 </p>
+
+
+
+![](/Users/pushpanshuranjansingh/Documents/NearBy.gif)
 
 :warning: **If you are cloning this repository. Create your project and move these items to your project because many files are ignored so you will get errors.**

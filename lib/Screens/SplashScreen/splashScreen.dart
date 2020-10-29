@@ -66,26 +66,28 @@ LocationPermission permission = await GeolocatorPlatform.instance.checkPermissio
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       height: size.height,
       width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
-            "NearBY",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey,
+      child: SingleChildScrollView(
+              child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              "NearBY",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+              ),
             ),
-          ),
-          SizedBox(
-            height: size.height * 0.25,
-          ),
-          Image.asset("assets/images/location.png"),
-          CircularProgressIndicator(
-            backgroundColor: Colors.purple,
-            strokeWidth: 4.0,
-          )
-        ],
+            SizedBox(
+              height: size.height * 0.25,
+            ),
+            Image.asset("assets/images/location.png"),
+            CircularProgressIndicator(
+              backgroundColor: Colors.purple,
+              strokeWidth: 4.0,
+            )
+          ],
+        ),
       ),
     ));
   }
