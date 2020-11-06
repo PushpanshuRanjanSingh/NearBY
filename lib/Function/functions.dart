@@ -16,7 +16,7 @@ Future<String> sendMail(String otp, String email) async {
   };
   String body = json.encode(data);
   http.Response response = await http.post(
-    'http://65.0.143.246/sendmail/',
+    'https://nearbyme.tk/sendmail/',
     body: body,
     headers: {"Content-Type": "application/json"},
   );

@@ -42,12 +42,13 @@ class _AskLocationState extends State<AskLocation> {
     print(token);
     if (token != null) {
       var response = await http.post(
-          "http://65.0.143.246/logoutall/",
+          "https://nearbyme.tk/logoutall/",
           headers: {"Authorization": "Token " + token});
       if (response.statusCode == 204) {
         sharedPreferences.clear();
         // ignore: deprecated_member_use
         sharedPreferences.commit();
+        
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (BuildContext context) => AuthScreen()),
             (Route<dynamic> route) => false);

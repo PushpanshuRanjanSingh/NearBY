@@ -56,7 +56,7 @@ class _LoginBackgroundState extends State<LoginBackground> {
       // ignore: avoid_init_to_null
       var jsonResponse = null;
       var response = await http.post(
-          "http://65.0.143.246/login/",
+          "https://nearbyme.tk/login/",
           body: data);
       if (response.statusCode == 200) {
         jsonResponse = json.decode(response.body);

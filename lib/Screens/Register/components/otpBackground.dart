@@ -42,7 +42,7 @@ class _OTPBackgroundState extends State<OTPBackground> {
     };
     String body = json.encode(data);
     var response = await http.post(
-      'http://65.0.143.246/register/',
+      'https://nearbyme.tk/register/',
       body: body,
       headers: {"Content-Type": "application/json"},
     );

@@ -113,7 +113,7 @@ class _MainScreenState extends State<MainScreen> {
     sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString("token");
     if (token != null) {
-      var response = await http.post("http://65.0.143.246/logoutall/",
+      var response = await http.post("https://nearbyme.tk/logoutall/",
           headers: {"Authorization": "Token " + token});
       if (response.statusCode == 204) {
         sharedPreferences.clear();
