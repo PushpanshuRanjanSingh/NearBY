@@ -1,6 +1,7 @@
-import 'package:NearBY/Screens/SplashScreen/splashScreen.dart';
 import 'package:NearBY/colors.dart';
+import 'package:NearBY/rohit/sliderScreen.dart';
 import 'package:flutter/material.dart';
+import 'rohit/chatview.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: BabyPowder,
         fontFamily: 'Poppins',
       ),
-      home: SplashScreen(),
+      home: Home(),
     );
   }
 }

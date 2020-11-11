@@ -427,7 +427,7 @@ void _bottomSheetModel(context, data) {
                     ),
                     new ListTile(
                       leading: Icon(
-                        Icons.directions_car_rounded,
+                        Icons.directions_car,
                       ),
                       title: Text(
                           "${(data['distance'] / 1000).toStringAsFixed(3)} km"),
@@ -448,7 +448,7 @@ void _bottomSheetModel(context, data) {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.assistant_navigation,
+                                Icons.navigation,
                                 color: Colors.white,
                               ),
                               SizedBox(
